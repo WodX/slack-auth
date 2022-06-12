@@ -51,6 +51,8 @@ This method will receive the request from the `ActionDispatch` of your applicati
 
 ```ruby
     user = SlackAuth::Client.authorize(request)
+    name = user.dig(:profile, :email)
+    access_token = user.dig(:authed_user, :access_token)
 ```
 
 ```ruby
@@ -95,7 +97,7 @@ The `user` will be an hash with:
         "https://slack.com/team_image_132": "...",
         "https://slack.com/team_image_230": "...",
         "https://slack.com/team_image_default": true
-    }
+    },
     authed_user: {
         id: "U0R7MFMJM",
         scope: "scope list",
