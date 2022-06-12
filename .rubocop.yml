@@ -9,7 +9,7 @@ AllCops:
   TargetRubyVersion: 2.4.2
   NewCops: enable
   Exclude:
-    - "bin/{rails,rake}"
+    - "bin/*"
     - "vendor/**/*"
 
 Layout/AccessModifierIndentation:

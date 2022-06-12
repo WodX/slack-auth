@@ -55,7 +55,10 @@ This method will receive the request from the `ActionDispatch` of your applicati
 
 ```ruby
     SlackAuth::Client.authorize(request) do |user, response|
-    name = user["name"]
+        if response.code == '200'
+            name = user.dig(:profile, :email)
+            access_token = user.dig(:authed_user, :access_token)
+        end
     end
 ```
 
@@ -64,24 +67,21 @@ The `user` will be an hash with:
 ```ruby
 {
     profile: {
-        "iss": "https://slack.com",
-        "sub": "U0R7MFMJM",
-        "aud": "25259531569.11152291",
-        "exp": 1626874955,
-        "iat": 1626874655,
-        "auth_time": 1626874655,
-        "nonce": "abcd",
-        "at_hash": "tUbyWGBHe0V32FJEupkgVQ",
-        "https://slack.com/team_id": "T0RR",
-        "https://slack.com/user_id": "U0JM",
-        "email": "bront@slack-corp.com",
-        "email_verified": true,
-        "date_email_verified": 1622128723,
-        "locale": "en-US",
-        "name": "brent",
-        "given_name": "",
-        "family_name": "",
-        "https://slack.com/user_image_24": "https://secure.gravatar.com/avatar/bc.png",
+        ok: true,
+        sub: "U0R7JM",
+        "https://slack.com/user_id": "U0R7JM",
+        "https://slack.com/team_id": "T0R7GR",
+        email: "krane@slack-corp.com",
+        email_verified: true,
+        date_email_verified: 1622128723,
+        name: "krane",
+        picture: "https://secure.gravatar.com/....png",
+        given_name: "Bront",
+        family_name: "Labradoodle",
+        locale: "en-US",
+        "https://slack.com/team_name": "kraneflannel",
+        "https://slack.com/team_domain": "kraneflannel",
+        "https://slack.com/user_image_24": "...",
         "https://slack.com/user_image_32": "...",
         "https://slack.com/user_image_48": "...",
         "https://slack.com/user_image_72": "...",
@@ -96,11 +96,14 @@ The `user` will be an hash with:
         "https://slack.com/team_image_230": "...",
         "https://slack.com/team_image_default": true
     }
-    access_token: "123455.123.321"
+    authed_user: {
+        id: "U0R7MFMJM",
+        scope: "scope list",
+        access_token: "123455.123.321",
+        token_type: "user"
+        },
 }
 ```
-
-For mor information about what means some profile properties check [here](https://api.slack.com/methods/openid.connect.token#markdown).
 
 ## Development
 

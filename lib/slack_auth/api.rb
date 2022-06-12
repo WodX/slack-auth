@@ -17,6 +17,23 @@ module SlackAuth
         )
       end
 
+      def oauth_v2_access(code:)
+        Net::HTTP.post_form(
+          uri("oauth.v2.access"),
+          {
+            code: code,
+            client_secret: SlackAuth.configuration.client_secret,
+            client_id: SlackAuth.configuration.client_id,
+          },
+        )
+      end
+
+      def openid_connect_userinfo(token:)
+        Net::HTTP.post_form(
+          uri("openid.connect.userInfo"), { token: token }
+        )
+      end
+
       private
 
       def uri(endpoint)
